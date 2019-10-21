@@ -1,10 +1,16 @@
 module Task2_1 where
 
+{-
+  Задание 2.1
+  На основе структуры бинарного дерева из лекции необходимо реализовать свою структуру данных
+  бинарного дерева поиска (без балансировки) и все операции, приведённые в данном файле
+-}
+
 import Todo(todo)
 
 -- Ассоциативный массив на основе бинарного дерева поиска
 -- Ключи - Integer, значения - произвольного типа
-data TreeMap v = ChangeMe 
+data TreeMap v = ChangeMe
 
 -- Пустое дерево
 emptyTree :: TreeMap v
@@ -38,6 +44,6 @@ treeFromList lst = todo
 listFromTree :: TreeMap v -> [(Integer, v)]
 listFromTree t = todo
 
--- Поиск k-той порядковой статистики дерева 
+-- Поиск k-той порядковой статистики дерева
 kMean :: Integer -> TreeMap v -> (Integer, v)
 kMean i t = todo

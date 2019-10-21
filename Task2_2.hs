@@ -1,8 +1,14 @@
 module Task2_2 where
 
+{-
+  Задание 2.2
+  Необходимо реализовать функции foldl, foldr и unfoldr, а также все остальные функции
+  в данном файле _на основе этих трёх_
+-}
+
 import Todo(todo)
 
-import Prelude hiding (foldl, foldr, unfoldr, map, concatMap, 
+import Prelude hiding (foldl, foldr, unfoldr, map, concatMap,
     filter, maxBy, minBy, reverse, sum, product, elem)
 
 foldl :: (b -> a -> b) -> b -> [a] -> b
