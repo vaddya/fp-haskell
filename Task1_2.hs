@@ -20,9 +20,9 @@ cos x = sum $ take 10 $ taylorSeries x (2, 1)
 -- Taylor series for sin and cos
 taylorSeries :: Double -> (Double, Double) -> [Double]
 taylorSeries x (n1, x1) = map snd $ iterate iter (n1, x1)
-    where
-        iter :: (Double, Double) -> (Double, Double)
-        iter (n, prev) = (n + 2, prev * (-1) * x * x / (n - 1) / n)
+  where
+    iter :: (Double, Double) -> (Double, Double)
+    iter (n, prev) = (n + 2, prev * (-1) * x * x / (n - 1) / n)
 
 -- наибольший общий делитель двух чисел
 gcd :: Integer -> Integer -> Integer
@@ -42,9 +42,10 @@ isDateCorrect day month year = todo
 -- готовые функции и плавающую арифметику использовать нельзя
 pow :: Integer -> Integer -> Integer
 pow x y
- | y < 1     = error "Negative power"
- | y == 1    = x
- | otherwise = x * pow x (y - 1)
+ | y < 0            = error "Negative exponent"
+ | x == 1 || y == 0 = 1
+ | y == 1           = x
+ | otherwise        = x * pow x (y - 1)
 
 -- является ли данное число простым?
 isPrime :: Integer -> Bool
@@ -65,3 +66,22 @@ shapeArea points = todo
 --  -1, если это не треугольник
 triangleKind :: Point2D -> Point2D -> Point2D -> Integer
 triangleKind a b c = todo
+
+-- Test sin, cos, gcd, pow
+cmp :: (Ord a, Num a) => (a -> a) -> (a -> a) -> a -> a -> Bool
+cmp f g e x = abs (f x - g x) <= e
+
+cmpSin = cmp sin Prelude.sin 1e-3
+cmpSins = [cmpSin (-1), cmpSin 0, cmpSin 1, cmpSin 3, cmpSin 6]
+
+cmpCos = cmp cos Prelude.cos 1e-3
+cmpCoss = [cmpCos (-1), cmpCos 0, cmpCos 1, cmpCos 3, cmpSin 6]
+
+cmpGcd x y = gcd x y == Prelude.gcd x y
+cmpGcds = [cmpGcd 15 5, cmpGcd 42 56, cmpGcd (-42) 56, cmpGcd 0 1, cmpGcd 1701 3768]
+
+cmpPow x n = pow x n == x ^ n
+cmpPows = [cmpPow 3 5, cmpPow 5 3, cmpPow 0 1, cmpPow 1 0, cmpPow 2 100]
+
+testAll = map (\b -> if b then "OK" else "FAIL") $
+  concatMap id [cmpSins, cmpCoss, cmpGcds, cmpPows]
