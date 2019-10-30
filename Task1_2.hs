@@ -6,15 +6,23 @@ module Task1_2 where
 -}
 
 import Todo(todo)
-import Prelude hiding (gcd, sin, cos)
+import Prelude hiding (gcd, cos, sin)
+import qualified Prelude (gcd, cos, sin)
 
 -- синус числа (формула Тейлора)
 sin :: Double -> Double
-sin x = todo
+sin x = sum $ take 10 $ taylorSeries x (3, x)
 
 -- косинус числа (формула Тейлора)
 cos :: Double -> Double
-cos x = todo
+cos x = sum $ take 10 $ taylorSeries x (2, 1)
+
+-- Taylor series for sin and cos
+taylorSeries :: Double -> (Double, Double) -> [Double]
+taylorSeries x (n1, x1) = map snd $ iterate iter (n1, x1)
+    where
+        iter :: (Double, Double) -> (Double, Double)
+        iter (n, prev) = (n + 2, prev * (-1) * x * x / (n - 1) / n)
 
 -- наибольший общий делитель двух чисел
 gcd :: Integer -> Integer -> Integer
