@@ -6,6 +6,7 @@ module Task1_2 where
 -}
 
 import Todo(todo)
+import Prelude hiding (gcd, sin, cos)
 
 -- синус числа (формула Тейлора)
 sin :: Double -> Double
@@ -17,7 +18,8 @@ cos x = todo
 
 -- наибольший общий делитель двух чисел
 gcd :: Integer -> Integer -> Integer
-gcd x y = todo
+gcd x 0 = x
+gcd x y = gcd y (x `mod` y)
 
 -- существует ли полный целочисленный квадрат в диапазоне [from, to)?
 doesSquareBetweenExist :: Integer -> Integer -> Bool
@@ -31,7 +33,10 @@ isDateCorrect day month year = todo
 -- возведение числа в степень, duh
 -- готовые функции и плавающую арифметику использовать нельзя
 pow :: Integer -> Integer -> Integer
-pow x y = todo
+pow x y
+ | y < 1     = error "Negative power"
+ | y == 1    = x
+ | otherwise = x * pow x (y - 1)
 
 -- является ли данное число простым?
 isPrime :: Integer -> Bool
