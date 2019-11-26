@@ -43,6 +43,14 @@ instance Semigroup (PSetSymDiff a) where
 instance Monoid (PSetSymDiff a) where
   mempty = PSetSymDiff $ \_ -> False
 
+-- Не уверен, что это моноид: можно придумать контрпример,
+-- когда mappend с mempty изменяет исходное множество,
+-- а это нарушет основной закон моноида
+x = PSetSymDiff $ \x -> x > 5
+y = mappend x mempty
+-- symDiffContains x 10 == True
+-- symDiffContains y 10 == False
+
 -- Ничего не знаем о множестве, формируемым операцией fmap
 -- поэтому результат всегда False
 instance Functor PSet where
