@@ -41,7 +41,7 @@ instance Semigroup (PSetSymDiff a) where
   s1 <> s2 = PSetSymDiff $ \x -> symDiffContains s1 x `xor` symDiffContains s2 x 
 
 instance Monoid (PSetSymDiff a) where
-  mempty = PSetSymDiff $ \_ -> True
+  mempty = PSetSymDiff $ \_ -> False
 
 -- Ничего не знаем о множестве, формируемым операцией fmap
 -- поэтому результат всегда False
