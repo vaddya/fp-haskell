@@ -17,7 +17,7 @@ instance Functor FunMonad where
   fmap f (FunMonad g) = FunMonad $ f . g
 
 instance Applicative FunMonad where
-  -- Тривиальная обертка над передаваемым значением 
+  -- Тривиальная обертка -- функция которая всегда возращает этот элемент
   pure x = FunMonad $ \_ -> x
   
   -- Создаем новую функцию, которая принимает аргумент,
