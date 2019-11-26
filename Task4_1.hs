@@ -13,11 +13,23 @@ data FunMonad a = FunMonad { fun :: String -> a }
 -- реализуйте классы `Functor`, `Applicative` и `Monad` для типа `FunMonad`
 
 instance Functor FunMonad where
+  -- Композиция функций
   fmap f (FunMonad g) = FunMonad $ f . g
 
 instance Applicative FunMonad where
+  -- Тривиальная обертка над передаваемым значением 
   pure x = FunMonad $ \_ -> x
-  (FunMonad f) <*> (FunMonad g) = FunMonad $ \s -> f s $ g s
+  
+  -- Создаем новую функцию, которая принимает аргумент,
+  -- сначала передает его во вторую функции,
+  -- затем аргумент вместе с результатом второй функции передает в первую
+  -- f :: (String -> a) -> b, g :: (String -> a), res :: (String -> b)
+  (FunMonad f) <*> (FunMonad g) = FunMonad $ \s -> f s (g s)
 
 instance Monad FunMonad where
+  -- Создаем новую функцию, которая принимает аргумент,
+  -- сначала передает его в первую функцию,
+  -- затем результат первой функции передает во вторую,
+  -- после чего применяет к полученной функции аргумент
+  -- f :: String -> a, g :: a -> String -> b, res :: String -> b
   (FunMonad f) >>= g = FunMonad $ \s -> fun (g $ f s) s
