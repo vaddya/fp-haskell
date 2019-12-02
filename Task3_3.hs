@@ -54,4 +54,4 @@ y = mappend x mempty
 -- Ничего не знаем о множестве, формируемым операцией fmap
 -- поэтому результат всегда False
 instance Functor PSet where
-  fmap _ _ = PSet (\_ -> False)
+  fmap _ _ = PSet $ \_ -> False

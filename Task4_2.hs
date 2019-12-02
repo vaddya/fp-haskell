@@ -26,5 +26,5 @@ instance Applicative FourOf where
 instance Monad FourOf where
   -- Применяем каждый элемент из четверки к функции, возвращающей четверку, и берем из нее только
   -- соответствующий элемент (для первого элемента берем первый элемент, для второго второй и т.д.)
-  -- x :: (a) x 4, f :: a -> (b) x 4, res :: (b) x 4
-  (FourOf x1 x2 x3 x4) >>= f = FourOf (first $ f x1) (second $ f x2) (third $ f x3) (fourth $ f x4)
+  -- x :: (a) x 4, k :: a -> (b) x 4, res :: (b) x 4
+  (FourOf x1 x2 x3 x4) >>= k = FourOf (first $ k x1) (second $ k x2) (third $ k x3) (fourth $ k x4)
