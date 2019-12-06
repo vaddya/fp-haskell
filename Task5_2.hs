@@ -11,6 +11,17 @@ data Zipper a = Zipper [a] [a]
 fromList :: [a] -> Zipper a
 fromList lst = Zipper [] lst
 
+toList :: Zipper a -> [a]
+toList z@(Zipper l r)
+  | null l    = r
+  | otherwise = toList $ goLeft z
+
+instance (Show a) => Show (Zipper a) where
+  show = show . toList
+
+instance (Eq a) => Eq (Zipper a) where
+  z1 == z2 = toList z1 == toList z2
+
 goRight :: Zipper a -> Zipper a
 goRight z@(Zipper _ []) = z
 goRight (Zipper l (rh:rt)) = Zipper (rh:l) rt
