@@ -34,10 +34,28 @@ list2dlist' left (h: t) =
 
 -- Реализуйте функции индексирования, вставки и удаления элементов
 index :: DList a -> Int -> a
-index = todo
+index DNil _ = error("IndexOutOfBoundException")
+index (DCons _ x r) i
+  | i == 0    = x
+  | otherwise = index r (i - 1)
 
 insertAt :: DList a -> Int -> a -> DList a
-insertAt list index value = todo
+insertAt = insertAt' DNil
+  where
+    insertAt' :: DList a -> DList a -> Int -> a -> DList a
+    insertAt' left DNil i v
+      | i == 0    = DCons left v DNil
+      | otherwise = error("IndexOutOfBoundException")
+    insertAt' left (DCons l x r) i v
+      | i == 0    = let rec = DCons l v (DCons rec x r) in rec
+      | otherwise = let rec = DCons l x (insertAt' rec r (i - 1) v) in rec
 
 removeAt :: DList a -> Int -> DList a
-removeAt list index = todo
+removeAt = removeAt' DNil
+  where
+    removeAt' _ DNil _ = error("IndexOutOfBoundException")
+    removeAt' left (DCons l x r) i
+      | i == 0 = case r of
+        DNil           -> DNil
+        DCons l' x' r' -> DCons left x' r'
+      | otherwise = let rec = DCons l x (removeAt' rec r (i - 1)) in rec
