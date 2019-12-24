@@ -1,6 +1,7 @@
 module Task5_2 where
 
 import Todo(todo)
+import Prelude hiding (concat)
 
 -- Зиппер из лекции 
 
@@ -46,7 +47,8 @@ removeLeft (Zipper (_:lt) r) = Zipper lt r
 -- вставки подсписка в середину и выделения подсписка
 
 concat :: Zipper a -> Zipper a -> Zipper a
-concat left right = todo
+concat (Zipper l []) (Zipper [] r) = Zipper l r
+concat left right = concat (goRight left) (goLeft right)
 
 insertManyAt :: Int -> Zipper a -> Zipper a -> Zipper a
 insertManyAt index what into = todo
