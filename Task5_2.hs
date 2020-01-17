@@ -19,6 +19,7 @@ toList z@(Zipper l r)
 
 instance (Show a) => Show (Zipper a) where
   show = show . toList
+--   show (Zipper l r) = show l ++ show r -- debug
 
 instance (Eq a) => Eq (Zipper a) where
   z1 == z2 = toList z1 == toList z2
@@ -46,12 +47,35 @@ removeLeft (Zipper (_:lt) r) = Zipper lt r
 -- Используя приведённые выше функции, реализуйте функцию конкатенации
 -- вставки подсписка в середину и выделения подсписка
 
+-- concat (Zipper [] [1,2,3]) (Zipper [] [4,5,6]) -> Zipper [] [1,2,3,4,5,6]
 concat :: Zipper a -> Zipper a -> Zipper a
-concat (Zipper l []) (Zipper [] r) = Zipper l r
-concat left right = concat (goRight left) (goLeft right)
+concat left@(Zipper ll lr) right =
+  let Zipper _ rr = reset right 
+  in Zipper ll (lr ++ rr)
 
+-- reset $ insertManyAt 2 (Zipper [] [5,6]) (Zipper [] [1,2,3,4]) -> Zipper [] [1,2,5,6,3,4]
 insertManyAt :: Int -> Zipper a -> Zipper a -> Zipper a
-insertManyAt index what into = todo
+insertManyAt index what@(Zipper wl wr) into = 
+  let Zipper il ir = goRightN index $ reset into
+  in Zipper (wl ++ il) (wr ++ ir)
 
+-- reset $ subZipper 2 4 (Zipper [] [1,2,3,4,5]) -> Zipper [] [3,4]
 subZipper :: Int -> Int -> Zipper a -> Zipper a
-subZipper from to input = todo
+subZipper from to input
+  | from > to  = error("from > to")
+  | otherwise  = dropRight $ goRightN (to - from) $ dropLeft $ goRightN from $ reset input
+
+-- Utils
+reset :: Zipper a -> Zipper a
+reset z@(Zipper [] _) = z
+reset z = reset $ goLeft z
+
+goRightN :: Int -> Zipper a -> Zipper a
+goRightN 0 z = z
+goRightN n z = goRightN (n - 1) $ goRight z
+
+dropLeft :: Zipper a -> Zipper a
+dropLeft (Zipper _ r) = Zipper [] r
+
+dropRight :: Zipper a -> Zipper a
+dropRight (Zipper l _) = Zipper l []
