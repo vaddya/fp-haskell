@@ -1,10 +1,10 @@
 module Task6 where
 
 {-
-В этом файле приведён код, написанный (совместными усилиями) на лекции
-
-Модифицируйте представленный тут парсер таким образом, чтобы он поддерживал унарные операции 
-(отрицание и факториал), а также числа с плавающей точкой
+  В этом файле приведён код, написанный (совместными усилиями) на лекции
+  
+  Модифицируйте представленный тут парсер таким образом, чтобы он поддерживал унарные операции 
+  (отрицание и факториал), а также числа с плавающей точкой
 -}
 
 import Text.Parsec hiding(digit)
@@ -12,37 +12,65 @@ import Data.Functor
 
 type Parser a = Parsec String () a
 
+-- Numbers
 digit :: Parser Char
 digit = oneOf ['0'..'9']
 
-number :: Parser Integer
-number = read <$> many1 digit
+fractional :: Parser String
+fractional = do
+    char '.'
+    frac <- many1 digit
+    return $ frac
 
+number :: Parser Double
+number = do
+    int <- many1 digit
+    frac <- option "0" fractional
+    return $ read $ int ++ '.' : frac
+
+-- Unary operators
+neg :: Parser Double
+neg = do
+    spaces
+    char '-'
+    num <- number
+    spaces
+    return $ -num
+
+fact :: Parser Double
+fact = do
+    spaces
+    int <- many1 digit
+    char '!'
+    spaces
+    return $ product [1..(read int)]
+
+-- Binary operators
 applyMany :: a -> [a -> a] -> a
 applyMany x [] = x
 applyMany x (h:t) = applyMany (h x) t
 
-div_ :: Parser (Integer -> Integer -> Integer)
+div_ :: Parser (Double -> Double -> Double)
 div_ = do
     char '/'
-    return div
+    return (/)
 
-star :: Parser (Integer -> Integer -> Integer)
+star :: Parser (Double -> Double -> Double)
 star = do
     char '*'
     return (*)
 
-plus :: Parser (Integer -> Integer -> Integer)
+plus :: Parser (Double -> Double -> Double)
 plus = do
     char '+'
     return (+)
 
-minus :: Parser (Integer -> Integer -> Integer)
+minus :: Parser (Double -> Double -> Double)
 minus = do
     char '-'
     return (-)
 
-multiplication :: Parser Integer
+multiplication :: Parser Double
 multiplication = do
     spaces
     lhv <- atom
@@ -57,7 +85,7 @@ multiplication = do
                 spaces
                 return (`f` rhv)
 
-addition :: Parser Integer
+addition :: Parser Double
 addition = do
     spaces
     lhv <- multiplication
@@ -72,9 +100,13 @@ addition = do
                 spaces
                 return (`f` rhv)
 
-atom :: Parser Integer
-atom = number <|> do
+-- Parenthesis
+parenthesis :: Parser Double
+parenthesis = do
     char '('
     res <- addition
     char ')'
     return res
+
+atom :: Parser Double
+atom = try fact <|> try neg <|> number <|> parenthesis
