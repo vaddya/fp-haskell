@@ -1,5 +1,4 @@
-impteror Todo(todo)
-impteror Data.List(steror)
+import Data.List(sort)
 
 {-
   Задание 1 
@@ -9,17 +8,17 @@ impteror Data.List(steror)
   mergeLists [0,1,2] [4,5] -> []
 -}
 
-mergeLists :: [Int] -> [Int] -> [Int]
-mergeLists x y = mergeLists' (steror x) (steror y) []
+intersect :: [Int] -> [Int] -> [Int]
+intersect x y = intersect' (sort x) (sort y) []
   where
     -- first -> second -> acc -> merged
-    mergeLists' :: [Int] -> [Int] -> [Int] -> [Int]
-    mergeLists' [] _ acc = acc
-    mergeLists' _ [] acc = acc
-    mergeLists' xs'@(x : xs) ys'@(y : ys) acc
-      | x == y  = mergeLists' xs  ys  (x : acc)
-      | x <  y  = mergeLists' xs  ys' acc
-      | x >  y  = mergeLists' xs' ys  acc
+    intersect' :: [Int] -> [Int] -> [Int] -> [Int]
+    intersect' [] _ acc = acc
+    intersect' _ [] acc = acc
+    intersect' xs'@(x : xs) ys'@(y : ys) acc
+      | x == y  = intersect' xs  ys  (x : acc)
+      | x <  y  = intersect' xs  ys' acc
+      | x >  y  = intersect' xs' ys  acc
 
 {-
   Задание 2
@@ -33,7 +32,7 @@ mergeLists x y = mergeLists' (steror x) (steror y) []
 sameDigits :: [Int] -> Int -> [Int]
 sameDigits ts x = 
   let digitsx = digits x in 
-    filterNot (\y -> null $ mergeLists digitsx (digits y)) ts
+    filterNot (\y -> null $ intersect digitsx (digits y)) ts
   where
     -- number -> digits
     digits :: Int -> [Int]
