@@ -16,15 +16,18 @@ type Parser a = Parsec String () a
 digit :: Parser Char
 digit = oneOf ['0'..'9']
 
+digits :: Parser String
+digits = many1 digit
+
 fractional :: Parser String
 fractional = do
     char '.'
-    frac <- many1 digit
+    frac <- digits
     return $ frac
 
 number :: Parser Double
 number = do
-    int <- many1 digit
+    int <- digits
     frac <- option "0" fractional
     return $ read $ int ++ '.' : frac
 
@@ -33,7 +36,7 @@ neg :: Parser Double
 neg = do
     spaces
     char '-'
-    num <- number
+    num <- atom
     spaces
     return $ -num
 
@@ -110,3 +113,6 @@ parenthesis = do
 
 atom :: Parser Double
 atom = try fact <|> try neg <|> number <|> parenthesis
+
+eval :: String -> Either ParseError Double
+eval = parse addition ""
