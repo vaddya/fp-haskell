@@ -1,7 +1,5 @@
 module Task5_1 where
 
-import Todo(todo)
-
 -- Структура двусвязного списка из лекции про ленивость
 
 data DList a = DNil 

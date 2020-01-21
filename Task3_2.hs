@@ -8,8 +8,6 @@ module Task3_2 where
   Необходимо реализовать все функции и классы типов в данном файле.
 -}
 
-import Todo(todo)
-
 data ReverseList a = RNil | RCons (ReverseList a) a
 
 rlistToList :: ReverseList a -> [a]

@@ -1,3 +1,5 @@
+module TaskPlus_4 where
+
 import Prelude hiding(Left, Right)
 import Data.List(tails)
 

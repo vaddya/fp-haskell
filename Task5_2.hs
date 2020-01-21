@@ -1,6 +1,5 @@
 module Task5_2 where
 
-import Todo(todo)
 import Prelude hiding (concat)
 
 -- Зиппер из лекции 
@@ -63,7 +62,7 @@ insertManyAt index what@(Zipper wl wr) into =
 subZipper :: Int -> Int -> Zipper a -> Zipper a
 subZipper from to input
   | from > to  = error("from > to")
-  | otherwise  = dropRight $ goRightN (to - from) $ dropLeft $ goRightN from $ reset input
+  | otherwise  = reset $ dropRight $ goRightN (to - from) $ dropLeft $ goRightN from $ reset input
 
 -- Utils
 reset :: Zipper a -> Zipper a

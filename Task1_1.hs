@@ -5,8 +5,6 @@ module Task1_1 where
   Необходимо реализовать все операции, описанные в данном файле
 -}
 
-import Todo(todo)
-
 data Operation = Plus | Minus | Times
   deriving (Show, Eq)
 

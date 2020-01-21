@@ -6,7 +6,6 @@ module Task1_2 where
 -}
 
 import Todo(todo)
-import Prelude hiding (gcd, cos, sin)
 import qualified Prelude (gcd, cos, sin)
 
 -- синус числа (формула Тейлора)
@@ -36,7 +35,19 @@ doesSquareBetweenExist from to = todo
 -- является ли дата корректной с учётом количества дней в месяце и
 -- вискокосных годов?
 isDateCorrect :: Integer -> Integer -> Integer -> Bool
-isDateCorrect day month year = todo
+isDateCorrect day month year
+  | isLeap year && month == 3 && day == 29 = True -- leap day
+  | month > 0 && month <= 12 && day > 0 && day <= daysInMonth month = True
+  | otherwise = False
+  where 
+    isLeap :: Integer -> Bool
+    isLeap year = year `mod` 4 == 0 && year `mod` 400 /= 0
+    
+    daysInMonth :: Integer -> Integer
+    daysInMonth x
+      | x == 2 = 28
+      | x `elem` [1,3,5,7,8,10,12] = 31
+      | otherwise = 30
 
 -- возведение числа в степень, duh
 -- готовые функции и плавающую арифметику использовать нельзя
@@ -49,14 +60,17 @@ pow x y
 
 -- является ли данное число простым?
 isPrime :: Integer -> Bool
-isPrime x = todo
+isPrime n
+  | n == 2 = True
+  | n == 1 || n `mod` 2 == 0 = False
+  | otherwise = not $ any (\x -> n `mod` x == 0) [3, 5 .. round $ sqrt $ fromIntegral n]
 
 type Point2D = (Double, Double)
 
 -- рассчитайте площадь многоугольника по формуле Гаусса
 -- многоугольник задан списком координат
 shapeArea :: [Point2D] -> Double
-shapeArea points = todo
+shapeArea (points) = todo
 
 -- треугольник задан своими координатами.
 -- функция должна вернуть
