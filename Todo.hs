@@ -1,4 +1,4 @@
-module Todo(todo) where
+module Todo (todo) where
 
 import Control.Exception
 
@@ -11,5 +11,3 @@ instance Show NotImplementedException where
 
 todo :: a
 todo = throw NotImplementedException
-
-data TodoType = TodoType

@@ -1,12 +1,11 @@
-module Task1_2 where
+module Task.Math where
 
 {-
-  Задание 1.2
-  Необходимо реализовать четыре любые функции в данном файле
+  Реализовать функции
 -}
 
 import Todo(todo)
-import qualified Prelude (gcd, cos, sin)
+import Prelude hiding (gcd, cos, sin)
 
 -- синус числа (формула Тейлора)
 sin :: Double -> Double
@@ -65,37 +64,3 @@ isPrime n
   | n == 1 || n `mod` 2 == 0 = False
   | otherwise = not $ any (\x -> n `mod` x == 0) [3, 5 .. round $ sqrt $ fromIntegral n]
 
-type Point2D = (Double, Double)
-
--- рассчитайте площадь многоугольника по формуле Гаусса
--- многоугольник задан списком координат
-shapeArea :: [Point2D] -> Double
-shapeArea (points) = todo
-
--- треугольник задан своими координатами.
--- функция должна вернуть
---  0, если он тупоугольный
---  1, если он остроугольный
---  2, если он прямоугольный
---  -1, если это не треугольник
-triangleKind :: Point2D -> Point2D -> Point2D -> Integer
-triangleKind a b c = todo
-
--- Test sin, cos, gcd, pow
-cmp :: (Ord a, Num a) => (a -> a) -> (a -> a) -> a -> a -> Bool
-cmp f g e x = abs (f x - g x) <= e
-
-cmpSin = cmp sin Prelude.sin 1e-3
-cmpSins = [cmpSin (-1), cmpSin 0, cmpSin 1, cmpSin 3, cmpSin 6]
-
-cmpCos = cmp cos Prelude.cos 1e-3
-cmpCoss = [cmpCos (-1), cmpCos 0, cmpCos 1, cmpCos 3, cmpSin 6]
-
-cmpGcd x y = gcd x y == Prelude.gcd x y
-cmpGcds = [cmpGcd 15 5, cmpGcd 42 56, cmpGcd (-42) 56, cmpGcd 0 1, cmpGcd 1701 3768]
-
-cmpPow x n = pow x n == x ^ n
-cmpPows = [cmpPow 3 5, cmpPow 5 3, cmpPow 0 1, cmpPow 1 0, cmpPow 2 100]
-
-testAll = map (\b -> if b then "OK" else "FAIL") $
-  concatMap id [cmpSins, cmpCoss, cmpGcds, cmpPows]

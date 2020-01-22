@@ -1,16 +1,17 @@
-module Task4_2 where
+module Task.FourOf where
 
 {-
-  Задание 4.1
   Реализация монады над множеством из четырёх элементов.
   Реализуйте все требуемые классы типов и объясните, почему они реализованы именно так.
 -}
 
 data FourOf a = FourOf { first :: a, second :: a, third :: a, fourth :: a } deriving(Show,Eq)
 
--- реализуйте классы `Functor`, `Applicative` и `Monad` для типа `FourOf`
--- таким образом, что
--- do { x <- FourOf 1 2 3 4; y <- FourOf 4 6 7 8; return $ x + y } === FourOf 5 8 10 12
+{-
+  реализуйте классы `Functor`, `Applicative` и `Monad` для типа `FourOf`
+  таким образом, что
+  do { x <- FourOf 1 2 3 4; y <- FourOf 4 6 7 8; return $ x + y } === FourOf 5 8 10 12
+-}
 
 instance Functor FourOf where
   fmap f (FourOf x1 x2 x3 x4) = FourOf (f x1) (f x2) (f x3) (f x4)

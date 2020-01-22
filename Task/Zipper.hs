@@ -1,4 +1,4 @@
-module Task5_2 where
+module Task.Zipper where
 
 import Prelude hiding (concat)
 

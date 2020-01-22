@@ -1,4 +1,4 @@
-module Task5_1 where
+module Task.DList where
 
 -- Структура двусвязного списка из лекции про ленивость
 

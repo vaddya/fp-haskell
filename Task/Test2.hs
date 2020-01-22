@@ -1,4 +1,4 @@
-module TaskPlus_2 where
+module Task.Test2 where
 
 import Todo(todo)
 import Data.List(sort)
@@ -8,8 +8,7 @@ import Data.List(sort)
   Дан список целых чисел и два числа m и n. Заменить в списке все элементы, кратные
   m на n.
   Пример:
-  replace [1, 2, 3, 4, 9] 3 11
-  [1, 2, 11, 4, 11]
+  replace [1, 2, 3, 4, 9] 3 11 -> [1, 2, 11, 4, 11]
 -}
 
 replace :: [Int] -> Int -> Int -> [Int]
@@ -19,8 +18,7 @@ replace lst m n = map (\x -> if x `mod` m == 0 then n else x) lst
   Задание 2
   Дано два целых числа m и n. Найти сумму всех целых чисел, лежащих в диапазоне [m, n)
   Пример:
-  intervalSum 3 5
-  7
+  intervalSum 3 5 -> 7
 -}
 
 intervalSum :: Int -> Int -> Int

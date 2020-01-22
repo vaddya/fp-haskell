@@ -1,4 +1,4 @@
-module Task4_1 where
+module Task.FunMonad where
 
 {-
   Задание 4.1

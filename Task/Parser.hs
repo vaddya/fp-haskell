@@ -1,4 +1,4 @@
-module Task6 where
+module Task.Parser where
 
 {-
   В этом файле приведён код, написанный (совместными усилиями) на лекции
@@ -7,8 +7,7 @@ module Task6 where
   (отрицание и факториал), а также числа с плавающей точкой
 -}
 
-import Text.Parsec hiding(digit)
-import Data.Functor
+import Text.Parsec hiding (digit)
 
 type Parser a = Parsec String () a
 
@@ -23,13 +22,13 @@ fractional :: Parser String
 fractional = do
     char '.'
     frac <- digits
-    return $ frac
+    return $ '.' : frac
 
 number :: Parser Double
 number = do
     int <- digits
-    frac <- option "0" fractional
-    return $ read $ int ++ '.' : frac
+    frac <- option "" fractional
+    return $ read $ int ++ frac
 
 -- Unary operators
 neg :: Parser Double
@@ -43,7 +42,7 @@ neg = do
 fact :: Parser Double
 fact = do
     spaces
-    int <- many1 digit
+    int <- digits
     char '!'
     spaces
     return $ product [1..(read int)]

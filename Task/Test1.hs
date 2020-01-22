@@ -1,4 +1,4 @@
-module TaskPlus_1 where
+module Task.Test1 where
 
 import Todo(todo)
 import Data.List(sortBy)
@@ -9,8 +9,7 @@ import Data.Map as Map
   В заданном списке целых чисел заменить каждый элемент на сумму текущего элемента 
   и всех предыдущих.
   Пример:
-  accumulate [1, 2, 3, 4, 5]
-  [1, 3, 6, 10, 15]
+  accumulate [1, 2, 3, 4, 5] -> [1, 3, 6, 10, 15]
 -}
 
 accumulate :: [Int] -> [Int]
@@ -20,8 +19,7 @@ accumulate = scanl1 (+)
   Задание 2
   Поменять порядок цифр в заданном положительном числе на обратный.
   Пример:
-  revert 12345
-  54321
+  revert 12345 -> 54321
 -}
 
 revert :: Int -> Int

@@ -1,4 +1,4 @@
-module TaskPlus_3 where
+module Task.Test3 where
 
 import Data.List(sort)
 
